@@ -1,0 +1,153 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+
+espresso = MENU["espresso"]["ingredients"]
+custo_espresso = MENU["espresso"]["cost"]
+
+
+latte = MENU["latte"]["ingredients"]
+custo_latte = MENU["latte"]["cost"]
+
+
+cappuccino = MENU["cappuccino"]["ingredients"]
+custo_cappuccino = MENU["cappuccino"]["cost"]
+
+dinheiro_atual = int(0)
+
+
+def dinheiro():
+    global dinheiro_atual
+    vinte_cinco_centavos = int(input('Quantos de 25: ??'))
+    cinquenta_centavos = int(input('Quantos de 50: ??'))
+    reais = int(input('Quantas de 1 real ??: '))
+
+    dinheiro_atual += (vinte_cinco_centavos * 0.25) + (cinquenta_centavos * 0.5) + reais
+
+
+def fazer_espresso():
+    global dinheiro_atual
+    if resources["water"] >= espresso["water"]:
+        resources["water"] -= espresso["water"]
+        if resources["coffee"] >= espresso["coffee"]:
+            resources["coffee"] -= espresso["coffee"]
+            if custo_espresso <= dinheiro_atual:
+                dinheiro_atual -= custo_espresso
+                print('espresso feito')
+                print(resources)
+                print(f"te sobraram {dinheiro_atual} reais")
+            else:
+                print('Não há dinheiro suficiente')
+
+        else:
+            print('Não há como fazer, falta café')
+    else:
+        print('Não há como fazer, falta água')
+
+
+def fazer_latte():
+    global dinheiro_atual
+    if resources["water"] >= latte["water"]:
+        resources["water"] -= latte["water"]
+        if resources["coffee"] >= latte["coffee"]:
+            resources["coffee"] -= latte["coffee"]
+            if resources["milk"] >= latte["milk"]:
+                resources["milk"] -= latte["milk"]
+                if custo_latte <= dinheiro_atual:
+                    dinheiro_atual -= custo_latte
+                    print('latte feito!!')
+                    print(resources)
+                    print(f"te sobraram {dinheiro_atual} reais")
+
+                else:
+                    print('Não há dinheiro suficiente')
+
+            else:
+                print('não há como fazer, falta leite')
+        else:
+            print('Não há como fazer, falta café')
+    else:
+        print('Não há como fazer, falta água')
+
+
+def fazer_cappuccino():
+    global dinheiro_atual
+    if resources["water"] >= cappuccino["water"]:
+        resources["water"] -= cappuccino["water"]
+        if resources["coffee"] >= cappuccino["coffee"]:
+            resources["coffee"] -= cappuccino["coffee"]
+            if resources["milk"] >= cappuccino["milk"]:
+                resources["milk"] -= cappuccino["milk"]
+                if custo_cappuccino <= dinheiro_atual:
+                    dinheiro_atual -= custo_cappuccino
+                    print('cappuccino feito!!')
+                    print(resources)
+                    print(f"te sobraram {dinheiro_atual} reais")
+                else:
+                    print('Não há dinheiro suficiente')
+            else:
+                print('não há como fazer, falta leite')
+        else:
+            print('Não há como fazer, falta café')
+    else:
+        print('Não há como fazer, falta água')
+
+
+def mais_cafe():
+    mais = input("Voce quer mais um café?? Responda com 'sim' ou 'nao'.").lower()
+    if mais == 'sim':
+        return maquina_de_café()
+    else:
+        print('Ok, tenha um otimo dia')
+
+
+def maquina_de_café():
+    global dinheiro_atual
+    dinheiro()
+    cafe = input("Qual voce gostaria? (espresso/latte/cappuccino): ").lower()
+    if cafe == 'report':
+        print(resources)
+        maquina_de_café()
+    if cafe == 'nada':
+        print('Ok, tenha um ótimo dia')
+    if cafe == 'espresso':
+        fazer_espresso()
+        mais_cafe()
+    if cafe == 'latte':
+        fazer_latte()
+        mais_cafe()
+    if cafe == 'cappuccino':
+        fazer_cappuccino()
+        mais_cafe()
+
+
+maquina_de_café()
